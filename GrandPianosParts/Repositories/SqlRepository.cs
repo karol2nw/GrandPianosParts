@@ -1,35 +1,43 @@
 ﻿
 
 using GrandPianosParts.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace GrandPianosParts.Repositories
 {
     internal class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
-
     {
-        public void Add(T item)
+        private readonly DbSet<T> _dbSet;
+        private readonly DbContext _dbContext;
+        public SqlRepository(DbContext dbContext)
         {
-            throw new NotImplementedException();
-        }
+            _dbContext = dbContext;
+            _dbSet = _dbContext.Set<T>();
+        } 
 
         public IEnumerable<T> GetAll()
         {
-            throw new NotImplementedException();
+            return _dbSet.ToList();
         }
 
         public T GetById(int id)
         {
-            throw new NotImplementedException();
+            return _dbSet.Find(id);
+        }
+
+        public void Add(T item)
+        {
+            _dbSet.Add(item);
         }
 
         public void Remove(T item)
         {
-            throw new NotImplementedException();
+            _dbSet.Remove(item);
         }
 
         public void Save()
         {
-            throw new NotImplementedException();
+            _dbContext.SaveChanges();
         }
     }
 }
