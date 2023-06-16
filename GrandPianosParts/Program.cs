@@ -16,21 +16,19 @@ Console.WriteLine("To work on your database in SQL Server, press '2'");
 
 
 
-
+IRepository<PianoParts> repository = null;
 var userInput = Console.ReadLine();
 try
 {
     
     if (userInput == "1")
     {
-        ListRepository<PianoParts> repository = new ListRepository<PianoParts>();
+      repository =  ListRepositoryCreator();
         
-
     }
     else if (userInput == "2")
     {
-        var output = new SqlRepository<PianoParts>(new ApplicationDbContext());
-        output = repository as SqlRepository<PianoParts>;
+        SqlRepositoryCretor();
     }
     else
     {
@@ -41,6 +39,7 @@ catch (Exception e)
 {
     Console.WriteLine(e.Message);
 }
+
 
 Console.WriteLine();
 Console.WriteLine("Would you like to open previous data?");
@@ -126,4 +125,16 @@ static void WriteAll(IReadRepository<IEntity> repository)
     {
         Console.WriteLine(item);
     }
+}
+
+static ListRepository<PianoParts> ListRepositoryCreator()
+{
+    var repository = new ListRepository<PianoParts>();
+
+    return repository;
+}
+static SqlRepository<PianoParts> SqlRepositoryCretor()
+{
+    var repository = new SqlRepository<PianoParts>(new ApplicationDbContext());
+    return repository;
 }
