@@ -4,13 +4,13 @@ using System.Text.Json;
 
 namespace GrandPianosParts.Repositories
 {
-    internal class ListRepository<T> : IRepository<T> where T : class , IEntity , new()
+    internal class ListRepository<T> : IRepository<T> where T : class, IEntity, new()
     {
-       public event EventHandler<T> ItemAdded;
-       public event EventHandler<T> ItemRemoved;
-       
-        private const string filename = "filename.json";   
-        
+        public event EventHandler<T> ItemAdded;
+        public event EventHandler<T> ItemRemoved;
+
+        private const string filename = "data.json";
+
         private readonly List<T> _items = new();
 
 
@@ -39,16 +39,37 @@ namespace GrandPianosParts.Repositories
 
         public void Save()
         {
+
             using (var writer = File.AppendText(filename))
             {
                 foreach (var item in _items)
                 {
-                    JsonSerializer.Serialize(item);
-                }
+                    var json = JsonSerializer.Serialize<T>(item);
 
+                    writer.WriteLine(json);
+                }
             }
-          
-                              
+        }
+
+        public void Open()
+        {
+            if (File.Exists(filename))
+            {
+                using (var reader = File.OpenText(filename))
+                {
+                    var line = reader.ReadLine();
+                    while (line != null)
+                    {
+                        var item = JsonSerializer.Deserialize<T>(line);
+                        Add(item);
+                        line = reader.ReadLine();
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception("Json file doesn't exitst");
+            }
         }
     }
 }

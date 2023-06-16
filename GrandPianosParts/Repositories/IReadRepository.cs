@@ -7,6 +7,6 @@ namespace GrandPianosParts.Repositories
     {
         IEnumerable<T> GetAll();
         T GetById(int id);
-
+        void Open();
     }
 }

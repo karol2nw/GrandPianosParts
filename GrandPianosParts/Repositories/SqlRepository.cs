@@ -1,5 +1,6 @@
 ﻿
 
+using GrandPianosParts.Data;
 using GrandPianosParts.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,6 +44,15 @@ namespace GrandPianosParts.Repositories
         {
             _dbContext.SaveChanges();
         }
+        
+        public void Open()
+        {
+            using (var dbContext = new ApplicationDbContext()) 
+            {
+                var items = dbContext.PianoParts.ToList();
+            }
+        }
     }
+
 }
 
