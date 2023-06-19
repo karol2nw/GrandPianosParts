@@ -3,8 +3,7 @@ using GrandPianosParts.Data;
 using GrandPianosParts.Entities;
 using GrandPianosParts.Repositories;
 using GrandPianosParts.Repositories.RepositoryExtensions;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Query.Internal;
+
 
 Console.WriteLine("Welcome to Grand piano parts repository app.");
 Console.WriteLine("Your part list will be store in data base included of this app");
@@ -14,21 +13,17 @@ Console.WriteLine("At first, tell me where do you want to save data?");
 Console.WriteLine("To work on your database in file, press '1'");
 Console.WriteLine("To work on your database in SQL Server, press '2'");
 
-
-
 IRepository<PianoParts> repository = null;
 var userInput = Console.ReadLine();
 try
 {
-    
     if (userInput == "1")
     {
-      repository =  ListRepositoryCreator();
-        
+        repository = ListRepositoryCreator();
     }
     else if (userInput == "2")
     {
-        SqlRepositoryCretor();
+        repository = SqlRepositoryCretor();
     }
     else
     {
@@ -40,15 +35,18 @@ catch (Exception e)
     Console.WriteLine(e.Message);
 }
 
+repository.ItemAdded += ItemAdded;
+repository.ItemRemoved += ItemRemoved;
+repository.ItemSaved += ItemSaved;
+
 
 Console.WriteLine();
 Console.WriteLine("Would you like to open previous data?");
 Console.WriteLine("press: y/n ");
-
 try
 {
     userInput = Console.ReadLine();
-    if (userInput == "y") 
+    if (userInput == "y")
     {
         try
         {
@@ -58,7 +56,7 @@ try
         {
             Console.WriteLine(e.Message);
         }
-        
+
     }
     else if (userInput == "n")
     {
@@ -74,49 +72,131 @@ catch (Exception e)
     Console.WriteLine(e.Message);
 }
 
+bool outLoop = true;
+do
+{
+    Console.WriteLine();
+    Console.WriteLine("-------------------------------------");
+    Console.WriteLine("What do You want to do ?");
+    Console.WriteLine("To show all parts press 'a'");
+    Console.WriteLine("To Add new part press 'n'");
+    Console.WriteLine("To remove part press 'r'");
+    Console.WriteLine("To save changes press 's'");
+    Console.WriteLine("To quit data managment press 'q'");
+    userInput = Console.ReadLine();
 
+    switch (userInput)
+    {
 
+        case "a":
+            {
+                WriteAll(repository);
+                break;
+            }
+        case "n":
+            {
+                AddItem(repository);
+                break;
+            }
+        case "r":
+            {
+                RemoveItemById(repository);
+                break;
+            }
+        case "s":
+            {
+                repository.Save();
+                break;
+            }
+        case "q":
+            {
+                outLoop = false;
+                break;
+            }
+    }
+} while (outLoop);
 
+static void AddItem(IRepository<PianoParts> repository)
+{
+    while (true)
+    {
+        Console.WriteLine("insert part type : 1 - schank , 2 - hammer , 3- damperfilz or q - to quit data entry");
+        var userInput = Console.ReadLine();
+        var type = userInput;
 
-repository.ItemAdded += ItemAdded;
-repository.ItemRemoved += ItemRemoved;
-repository.ItemAdded += ItemAdded;
-repository.ItemRemoved += ItemRemoved;
+        if (type == "1")
+        {
+            Console.WriteLine("insert Part Name :");
+            userInput = Console.ReadLine();
+            var partName = userInput;
+            Console.WriteLine("Insert Part Number :");
+            userInput = Console.ReadLine();
+            var partNumber = userInput;
+            Console.WriteLine("Insert producer :");
+            userInput = Console.ReadLine();
+            try
+            {
+                if (char.TryParse(userInput, out var producer))
+                {
+                    repository.Add(new Schank { PartName = $"{partName}", PartNumber = $"{partNumber}", Producer = producer });
+                }
+                else
+                {
+                    throw new Exception("Input only one character");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+        else if (type == "2")
+        {
+            Console.WriteLine("insert Part Name :");
+            userInput = Console.ReadLine();
+            var partName = userInput;
+            Console.WriteLine("Insert Part Number :");
+            userInput = Console.ReadLine();
+            var partNumber = userInput;
+            Console.WriteLine("Insert producer :");
+            userInput = Console.ReadLine();
+            var producer = char.Parse(userInput);
 
+            repository.Add(new Hammer { PartName = $"{partName}", PartNumber = $"{partNumber}", Producer = producer });
+        }
+        else if (type == "3")
+        {
+            Console.WriteLine("insert Part Name :");
+            userInput = Console.ReadLine();
+            var partName = userInput;
+            Console.WriteLine("Insert Part Number :");
+            userInput = Console.ReadLine();
+            var partNumber = userInput;
+            Console.WriteLine("Insert producer :");
+            userInput = Console.ReadLine();
+            var producer = char.Parse(userInput);
 
-static void ItemAdded(object? sender, IEntity item)
+            repository.Add(new DamperFilz { PartName = $"{partName}", PartNumber = $"{partNumber}", Producer = producer });
+        }
+        if (type == "q")
+        {
+            break;
+        }
+    }
+}
+static void ItemAdded(object sender, PianoParts item)
 {
     Console.WriteLine($"{item.PartName} id: {item.Id} added");
 }
-static void ItemRemoved(object sender, IEntity item)
+static void ItemRemoved(object sender, PianoParts item)
 {
     Console.WriteLine($"{item.PartName} id: {item.Id} removed");
 }
+static void ItemSaved(object sender, PianoParts item)
+{
+    Console.WriteLine($"{item.PartName} id: {item.Id} saved");
+}
 
-
-
-//var schanks = new[]
-//{
-//        new Schank { PartName = "17 Schank", PartNumber = "123012", Producer = 'A' },
-//        new Schank { PartName = "16.2 Schank", PartNumber = "3212", Producer = 'R' },
-//        new Schank { PartName = "15.5 Schank", PartNumber = "3212", Producer = 'J' }
-//};
-//sqlRepository.AddBatch(schanks);
-
-
-
-
-
-//var hammers = new[]
-//{
-//        new Hammer { PartName = "SS original Hammer", PartNumber = "1302", Producer = 'S' },
-//        new Hammer { PartName = "Bechstein Hammer", PartNumber = "1012", Producer = 'R' },
-//        new Hammer { PartName = "Bluthner Patent Hammer", PartNumber = "410", Producer = 'A' }
-//    };
-//sqlRepository.AddBatch(hammers);
-
-
-WriteAll(repository);
 
 static void WriteAll(IReadRepository<IEntity> repository)
 {
@@ -124,6 +204,26 @@ static void WriteAll(IReadRepository<IEntity> repository)
     foreach (var item in items)
     {
         Console.WriteLine(item);
+    }
+}
+static void RemoveItemById(IRepository<PianoParts> repository)
+{
+    try
+    {
+        Console.WriteLine("Insert item Id to remove");
+        if (int.TryParse(Console.ReadLine(), out var id))
+        {
+            var item = repository.GetById(id);
+            repository.Remove(item);
+        }
+        else
+        {
+            throw new Exception("Invalid Id value");
+        }
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e.Message);
     }
 }
 
@@ -138,3 +238,4 @@ static SqlRepository<PianoParts> SqlRepositoryCretor()
     var repository = new SqlRepository<PianoParts>(new ApplicationDbContext());
     return repository;
 }
+

@@ -12,6 +12,7 @@ namespace GrandPianosParts.Repositories
         private readonly DbContext _dbContext;
         public event EventHandler<T> ItemAdded;
         public event EventHandler<T> ItemRemoved;
+        public event EventHandler<T> ItemSaved;
         public SqlRepository(DbContext dbContext)
         {
             _dbContext = dbContext;
@@ -42,17 +43,16 @@ namespace GrandPianosParts.Repositories
 
         public void Save()
         {
-            _dbContext.SaveChanges();
+            _dbContext.SaveChanges();          
         }
         
         public void Open()
-        {
-            using (var dbContext = new ApplicationDbContext()) 
+        {     
+            using (var dbContext = new ApplicationDbContext())
             {
-                var items = dbContext.PianoParts.ToList();
-            }
+                List<PianoParts> items = dbContext.PianoParts.ToList();               
+            }                    
         }
     }
-
 }
 
