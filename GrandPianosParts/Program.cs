@@ -2,9 +2,9 @@
 using GrandPianosParts.Data;
 using GrandPianosParts.Entities;
 using GrandPianosParts.Repositories;
-using GrandPianosParts.Repositories.RepositoryExtensions;
 
 
+const string auditFile = "Audit.txt";
 Console.WriteLine("Welcome to Grand piano parts repository app.");
 Console.WriteLine("Your part list will be store in data base included of this app");
 Console.WriteLine("--------------------------------------------------------------");
@@ -38,6 +38,7 @@ catch (Exception e)
 repository.ItemAdded += ItemAdded;
 repository.ItemRemoved += ItemRemoved;
 repository.ItemSaved += ItemSaved;
+
 
 
 Console.WriteLine();
@@ -187,14 +188,26 @@ static void AddItem(IRepository<PianoParts> repository)
 static void ItemAdded(object sender, PianoParts item)
 {
     Console.WriteLine($"{item.PartName} id: {item.Id} added");
+    using (var writer = File.AppendText(auditFile))
+    {
+        writer.WriteLine($"{DateTime.Now} : {item.PartName} id: {item.Id} added");
+    }
 }
 static void ItemRemoved(object sender, PianoParts item)
 {
     Console.WriteLine($"{item.PartName} id: {item.Id} removed");
+    using (var writer = File.AppendText(auditFile))
+    {
+        writer.WriteLine($"{DateTime.Now} : {item.PartName} id: {item.Id} removed");
+    }
 }
 static void ItemSaved(object sender, PianoParts item)
 {
     Console.WriteLine($"{item.PartName} id: {item.Id} saved");
+    using (var writer = File.AppendText(auditFile))
+    {
+        writer.WriteLine($"{DateTime.Now} : {item.PartName} id: {item.Id} saved");
+    }
 }
 
 

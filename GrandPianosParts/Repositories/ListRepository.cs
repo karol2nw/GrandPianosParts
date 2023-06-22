@@ -1,5 +1,6 @@
 ﻿
 using GrandPianosParts.Entities;
+using System.Net.NetworkInformation;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -12,7 +13,9 @@ namespace GrandPianosParts.Repositories
         public event EventHandler<T> ItemRemoved;
         public event EventHandler<T> ItemSaved;
 
+
         private const string filename = "JsonDataBase.json";
+        private const string filename2 = "Audit.txt";
 
         private readonly List<T> _items = new();
 
@@ -64,21 +67,18 @@ namespace GrandPianosParts.Repositories
                     var line = reader.ReadLine();
                     while (line != null)
                     {
-                        var item =JsonSerializer.Deserialize<T>(line);
+                        var item = JsonSerializer.Deserialize<T>(line);
                         Add(item);
-                        
+
                         line = reader.ReadLine();
                     }
                 }
-                File.WriteAllText(filename,string.Empty); 
+                File.WriteAllText(filename, string.Empty);
             }
             else
             {
                 throw new Exception("Json file doesn't exitst");
             }
-           
-        }   
-   
-    
+        }
     }
 }

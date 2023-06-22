@@ -13,11 +13,12 @@ namespace GrandPianosParts.Repositories
         public event EventHandler<T> ItemAdded;
         public event EventHandler<T> ItemRemoved;
         public event EventHandler<T> ItemSaved;
+
         public SqlRepository(DbContext dbContext)
         {
             _dbContext = dbContext;
             _dbSet = _dbContext.Set<T>();
-        } 
+        }
 
         public IEnumerable<T> GetAll()
         {
@@ -43,15 +44,15 @@ namespace GrandPianosParts.Repositories
 
         public void Save()
         {
-            _dbContext.SaveChanges();          
+            _dbContext.SaveChanges();
         }
-        
+
         public void Open()
-        {     
+        {
             using (var dbContext = new ApplicationDbContext())
             {
-                List<PianoParts> items = dbContext.PianoParts.ToList();               
-            }                    
+                List<PianoParts> items = dbContext.PianoParts.ToList();
+            }
         }
     }
 }
