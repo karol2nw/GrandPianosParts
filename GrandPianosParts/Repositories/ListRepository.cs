@@ -15,7 +15,7 @@ namespace GrandPianosParts.Repositories
 
 
         private const string filename = "JsonDataBase.json";
-        private const string filename2 = "Audit.txt";
+        
 
         private readonly List<T> _items = new();
 
