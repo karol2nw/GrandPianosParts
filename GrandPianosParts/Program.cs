@@ -11,7 +11,7 @@ services.AddSingleton<IApp,App>();
 services.AddSingleton<IRepository<PianoParts>,ListRepository<PianoParts>>();
 services.AddSingleton<IUserCommunication, UserCommunication>();
 services.AddSingleton<IEventHandler, GrandPianosParts.Services.EventHandler>();
-services.AddSingleton<IPartsDataProvider, PartsDataProvider>();
+services.AddSingleton<IPartsProvider, PartsProvider>();
 
 var serviceProvider = services.BuildServiceProvider();
 var app = serviceProvider.GetService<IApp>();

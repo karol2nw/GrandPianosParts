@@ -9,16 +9,73 @@ using System.Threading.Tasks;
 
 namespace GrandPianosParts.DataProviders
 {
-    internal class PartsDataProvider : IPartsDataProvider
+    public class PartsProvider : IPartsProvider
     {
-        private readonly IUserCommunication _userCommunication;
+
         private readonly IRepository<PianoParts> _repository;
 
-        public PartsDataProvider(IUserCommunication userCommunication,
-            IRepository<PianoParts> repository) 
+        public PartsProvider(IRepository<PianoParts> repository)
         {
-            this._userCommunication = userCommunication;
+
             this._repository = repository;
         }
+    
+        public List<PianoParts> OrderByProducer()
+        {
+            var parts = _repository.GetAll();
+            return parts.OrderBy(x => x.Producer).ToList();
+        }
+        public List<PianoParts> OrderById()
+        {
+            var parts = _repository.GetAll();
+            return parts.OrderBy(x => x.Id).ToList();
+        }
+        public List<PianoParts> OrderByName()
+        {
+            var parts = _repository.GetAll();
+            return parts.OrderBy(x => x.PartName).ToList();
+        }
+        public List<PianoParts> WhereProdcerIs(char producer)
+        {
+            var parts = _repository.GetAll();
+            return parts.Where(x => x.Producer == producer).ToList();
+        }
+        public List<PianoParts> WhereNumberIs(string number)
+        {
+            var parts = _repository.GetAll();
+            return parts.Where(x => x.PartNumber == number).ToList();
+        }
+        public List<Hammer> ShowAllHammers()
+        {
+            var parts = _repository.GetAll();
+            return parts.OfType<Hammer>().ToList();
+        }
+        public List<Schank> ShowAllSchanks()
+        {
+            var parts = _repository.GetAll();
+            return parts.OfType<Schank>().ToList();
+        }
+        public List<DamperFilz> ShowAllDampers()
+        {
+            var parts = _repository.GetAll();
+            return parts.OfType<DamperFilz>().ToList();
+        }
+        public List<string> ShowPartsNumbers()
+        {
+            var parts = _repository.GetAll();
+            return parts.Select(x => x.PartNumber).ToList();
+        }  
+        
+        public List<string> ShowPartsNames()
+        {
+            var parts = _repository.GetAll();
+            return parts.Select(x =>x.PartName).ToList();
+        }
+        public List<char> ShowProducersDistinct()
+        {
+            var parts = _repository.GetAll();
+            return parts.Select(x => x.Producer).Distinct().ToList();
+        }
+    
     }
 }

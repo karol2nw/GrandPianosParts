@@ -1,4 +1,5 @@
-﻿using GrandPianosParts.Entities;
+﻿using GrandPianosParts.DataProviders;
+using GrandPianosParts.Entities;
 using GrandPianosParts.Repositories;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,14 @@ namespace GrandPianosParts.Services
     public class UserCommunication : IUserCommunication
     {
         private readonly IRepository<PianoParts> _pianoPartsRepository;
+        private readonly IPartsProvider _partsProvider;
 
-
-        public UserCommunication(IRepository<PianoParts> pianoPartsRepository)
+        public UserCommunication
+            (IRepository<PianoParts> pianoPartsRepository,
+            IPartsProvider partsProvider)
         {
             _pianoPartsRepository = pianoPartsRepository;
+            _partsProvider = partsProvider;
         }
 
         public void Communication()
@@ -31,12 +35,12 @@ namespace GrandPianosParts.Services
             var userInput = Console.ReadLine();
             try
             {
-                
+
                 if (userInput == "y")
                 {
                     try
                     {
-                        Open(_pianoPartsRepository);
+                        _pianoPartsRepository.Open();
                     }
                     catch (Exception e)
                     {
@@ -78,6 +82,27 @@ namespace GrandPianosParts.Services
                     case "a":
                         {
                             WriteAll(_pianoPartsRepository);
+                            try
+                            {
+                                Console.WriteLine("Do You want to sort those position? y/n ");
+                                userInput = Console.ReadLine();
+                                if (userInput == "y")
+                                {
+                                    SortMenu();
+                                }
+                                else if (userInput == "n")
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    throw new Exception("ivalid character");
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine(e.Message);
+                            }
                             break;
                         }
                     case "n":
@@ -124,7 +149,7 @@ namespace GrandPianosParts.Services
                         userInput = Console.ReadLine();
                         var partNumber = userInput;
                         Console.WriteLine("Insert producer :");
-                        userInput = Console.ReadLine();
+                        userInput = Console.ReadLine().ToLower();
                         try
                         {
                             if (char.TryParse(userInput, out var producer))
@@ -175,6 +200,7 @@ namespace GrandPianosParts.Services
                     }
                 }
             }
+
             static void WriteAll(IReadRepository<IEntity> repository)
             {
                 var items = repository.GetAll();
@@ -183,6 +209,7 @@ namespace GrandPianosParts.Services
                     Console.WriteLine(item);
                 }
             }
+
             static void RemoveItemById(IRepository<PianoParts> repository)
             {
                 try
@@ -203,10 +230,77 @@ namespace GrandPianosParts.Services
                     Console.WriteLine(e.Message);
                 }
             }
-            static void Open(IRepository<PianoParts> repository)
+
+            void SortMenu()
             {
-                repository.Open();
+                Console.WriteLine("choose what would you like to sort positions?");
+                Console.WriteLine("To sort all positions press 'o'" +
+                    "To Show  the designated items press 'w'" +
+                    "To show only one kind of parts press 'k'" +
+                    "To show only parts numbers press 'n'" +
+                    "To show only parts Names press 'p'" +
+                    "To show distinct producers chars included in repository press 'c' ");
+
+                userInput = Console.ReadLine();
+                try
+                {
+                    switch (userInput)
+                    {
+                        case "o":
+                            {
+                                // Orderby();
+                                break;
+                            }
+                        case "w":
+                            {
+                                // WherePart();
+                                break;
+                            }
+                        case "k":
+                            {
+                                // ShowOnlyOneKindParts();
+                                break;
+                            }
+                        case "n":
+                            {
+                                var items = _partsProvider.ShowPartsNumbers();
+                                foreach (var item in items)
+                                {
+                                    Console.WriteLine(item);
+                                }
+                                break;
+                            }
+                        case "p":
+                            {
+                                var items = _partsProvider.ShowPartsNames();
+                                foreach (var item in items)
+                                {
+                                    Console.WriteLine(item);
+                                }
+                                break;
+                            }
+                        case "c":
+                            {
+                                var items = _partsProvider.ShowProducersDistinct();
+                                foreach (var item in items)
+                                {
+                                    Console.WriteLine(item);
+                                }
+                                break;
+                            }
+                        default:
+                            {
+                                throw new Exception("Invalid Letter");
+                            }
+                    }
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
             }
+
         }
     }
 }

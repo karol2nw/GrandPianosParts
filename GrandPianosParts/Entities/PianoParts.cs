@@ -6,7 +6,7 @@ namespace GrandPianosParts.Entities
         public string PartName { get; set; }
         public string PartNumber { get; set; }
         public char Producer { get; set; }
-        public override string ToString() => $"id : {Id}, partName : {PartName}, PartNumber : {PartNumber}";
+        public override string ToString() => $"id : {Id}, partName : {PartName}, PartNumber : {PartNumber}, Producer : {Producer}";
 
     }
 }
