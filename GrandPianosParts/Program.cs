@@ -1,5 +1,6 @@
 ﻿
 using GrandPianosParts;
+using GrandPianosParts.DataProviders;
 using GrandPianosParts.Entities;
 using GrandPianosParts.Repositories;
 using GrandPianosParts.Services;
@@ -10,6 +11,7 @@ services.AddSingleton<IApp,App>();
 services.AddSingleton<IRepository<PianoParts>,ListRepository<PianoParts>>();
 services.AddSingleton<IUserCommunication, UserCommunication>();
 services.AddSingleton<IEventHandler, GrandPianosParts.Services.EventHandler>();
+services.AddSingleton<IPartsDataProvider, PartsDataProvider>();
 
 var serviceProvider = services.BuildServiceProvider();
 var app = serviceProvider.GetService<IApp>();
