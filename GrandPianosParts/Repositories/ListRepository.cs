@@ -1,6 +1,5 @@
 ﻿
 using GrandPianosParts.Entities;
-using System.Net.NetworkInformation;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -45,12 +44,12 @@ namespace GrandPianosParts.Repositories
 
         public void Save()
         {
-
+           
             using (var writer = File.AppendText(filename))
             {
                 foreach (var item in _items)
                 {
-                    var json = JsonSerializer.Serialize<T>(item);
+                    var json = JsonSerializer.Serialize(item);
 
                     writer.WriteLine(json);
                     ItemSaved.Invoke(this, item);
@@ -59,7 +58,7 @@ namespace GrandPianosParts.Repositories
         }
 
         public void Open()
-        {
+        {           
             if (File.Exists(filename))
             {
                 using (var reader = File.OpenText(filename))

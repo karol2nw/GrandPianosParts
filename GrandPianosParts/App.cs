@@ -17,17 +17,15 @@ namespace GrandPianosParts
         public App(IUserCommunication userCommunication,
             IEventHandler eventHandler)
         {
-            this._userCommunication = userCommunication;
-            this._eventHandler = eventHandler;
+           _userCommunication = userCommunication;
+           _eventHandler = eventHandler;
         }
 
         public void Run()
         {
-            Console.WriteLine("I'm into Run App()");
+            
             _eventHandler.Subscribe();
             _userCommunication.Communication();
         }
-
-
     }
 }

@@ -27,6 +27,7 @@ namespace GrandPianosParts.Services
 
         public void ItemAdded(object sender, PianoParts item)
         {
+            Console.WriteLine();
             Console.WriteLine($"{item.PartName} id: {item.Id} added");
             using (var writer = File.AppendText(auditFile))
             {
@@ -35,6 +36,7 @@ namespace GrandPianosParts.Services
         }
         public void ItemRemoved(object sender, PianoParts item)
         {
+            Console.WriteLine();
             Console.WriteLine($"{item.PartName} id: {item.Id} removed");
             using (var writer = File.AppendText(auditFile))
             {
@@ -43,6 +45,7 @@ namespace GrandPianosParts.Services
         }
         public void ItemSaved(object sender, PianoParts item)
         {
+            Console.WriteLine();
             Console.WriteLine($"{item.PartName} id: {item.Id} saved");
             using (var writer = File.AppendText(auditFile))
             {

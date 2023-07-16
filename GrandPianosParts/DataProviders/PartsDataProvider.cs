@@ -45,10 +45,10 @@ namespace GrandPianosParts.DataProviders
             var parts = _repository.GetAll();
             return parts.Where(x => x.PartNumber == number).ToList();
         }
-        public List<Hammer> ShowAllHammers()
+        public IEnumerable<Hammer> ShowAllHammers()
         {
             var parts = _repository.GetAll();
-            return parts.OfType<Hammer>().ToList();
+            return parts.OfType<Hammer>();
         }
         public List<Schank> ShowAllSchanks()
         {
