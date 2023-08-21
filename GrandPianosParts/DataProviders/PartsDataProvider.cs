@@ -12,14 +12,16 @@ namespace GrandPianosParts.DataProviders
     public class PartsProvider : IPartsProvider
     {
 
-        private readonly IRepository<PianoParts> _repository;
+        private readonly IRepository<Hammer> _repository;
 
-        public PartsProvider(IRepository<PianoParts> repository)
+        public PartsProvider(IRepository<Hammer> hammerRepository,
+            IRepository<Schank> shankRepository,
+            IRepository<DamperFilz> DamperRepository)
         {
 
-            this._repository = repository;
+            this._repository = hammerRepository;
         }
-    
+
         public List<PianoParts> OrderByProducer()
         {
             var parts = _repository.GetAll();
@@ -45,10 +47,10 @@ namespace GrandPianosParts.DataProviders
             var parts = _repository.GetAll();
             return parts.Where(x => x.PartNumber == number).ToList();
         }
-        public IEnumerable<Hammer> ShowAllHammers()
+        public List<Hammer> ShowAllHammers()
         {
             var parts = _repository.GetAll();
-            return parts.OfType<Hammer>();
+            return parts.OfType<Hammer>().ToList();
         }
         public List<Schank> ShowAllSchanks()
         {
@@ -64,18 +66,18 @@ namespace GrandPianosParts.DataProviders
         {
             var parts = _repository.GetAll();
             return parts.Select(x => x.PartNumber).ToList();
-        }  
-        
+        }
+
         public List<string> ShowPartsNames()
         {
             var parts = _repository.GetAll();
-            return parts.Select(x =>x.PartName).ToList();
+            return parts.Select(x => x.PartName).ToList();
         }
         public List<char> ShowProducersDistinct()
         {
             var parts = _repository.GetAll();
             return parts.Select(x => x.Producer).Distinct().ToList();
         }
-    
+
     }
 }

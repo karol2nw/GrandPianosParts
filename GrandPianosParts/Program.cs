@@ -9,7 +9,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 var services = new ServiceCollection();
 services.AddSingleton<IApp,App>();
-services.AddSingleton<IRepository<PianoParts>,ListRepository<PianoParts>>();
+//services.AddSingleton<IRepository<PianoParts>,ListRepository<PianoParts>>();
+services.AddSingleton<IRepository,ListRepository<Hammer>>();
+services.AddSingelton<IRepository, ListRepository<DamperFilz>>();
+services.AddSingelton<IRepository,ListRepository<Schank>>();
+
 services.AddSingleton<IUserCommunication, UserCommunication>();
 services.AddSingleton<IEventHandler, GrandPianosParts.Services.EventHandler>();
 services.AddSingleton<IPartsProvider, PartsProvider>();

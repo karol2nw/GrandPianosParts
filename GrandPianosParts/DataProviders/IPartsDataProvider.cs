@@ -14,7 +14,7 @@ namespace GrandPianosParts.DataProviders
         List<PianoParts> OrderByName();
         List<PianoParts> WhereProdcerIs(char producer);
         List<PianoParts> WhereNumberIs(string number);
-        IEnumerable<Hammer> ShowAllHammers();
+        List<Hammer> ShowAllHammers();
         List<Schank> ShowAllSchanks();
         List<DamperFilz> ShowAllDampers();
         List<string> ShowPartsNumbers();

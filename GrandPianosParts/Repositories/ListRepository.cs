@@ -72,7 +72,7 @@ namespace GrandPianosParts.Repositories
                         line = reader.ReadLine();
                     }
                 }
-                File.WriteAllText(filename, string.Empty);
+             
             }
             else
             {
