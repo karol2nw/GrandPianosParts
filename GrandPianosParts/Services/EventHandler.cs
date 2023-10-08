@@ -10,22 +10,37 @@ namespace GrandPianosParts.Services
 {
     public class EventHandler : IEventHandler
     {
-        private IRepository<PianoParts> _pianoPartsRepository;
-        public EventHandler(IRepository<PianoParts> pianoPartsRepository)
+        private IRepository<Hammer> _hammerRepository;
+        private readonly IRepository<Schank> _schankRepository;
+        private readonly IRepository<DamperFilz> _damperRepository;
+
+        public EventHandler(IRepository<Hammer> hammerRepository,
+            IRepository<Schank> schankRepository,
+            IRepository<DamperFilz> damperRepository)
         {
-            _pianoPartsRepository = pianoPartsRepository;
+            _hammerRepository = hammerRepository;
+            _schankRepository = schankRepository;
+            _damperRepository = damperRepository;
         }
 
         const string auditFile = "Audit.txt";
 
         public void Subscribe()
         {
-            _pianoPartsRepository.ItemAdded += ItemAdded;
-            _pianoPartsRepository.ItemRemoved += ItemRemoved;
-            _pianoPartsRepository.ItemSaved += ItemSaved;
+            _hammerRepository.ItemAdded += ItemAdded;
+            _damperRepository.ItemAdded += ItemAdded;
+            _schankRepository.ItemAdded += ItemAdded;
+
+            _hammerRepository.ItemRemoved += ItemRemoved;
+            _schankRepository.ItemRemoved += ItemRemoved;
+            _damperRepository.ItemRemoved += ItemRemoved;
+
+            _hammerRepository.ItemSaved += ItemSaved;
+            _schankRepository.ItemSaved += ItemSaved;
+            _damperRepository.ItemSaved += ItemSaved;
         }
 
-        public void ItemAdded(object sender, PianoParts item)
+        public void ItemAdded(object sender, IEntity item)
         {
             Console.WriteLine();
             Console.WriteLine($"{item.PartName} id: {item.Id} added");
@@ -34,7 +49,7 @@ namespace GrandPianosParts.Services
                 writer.WriteLine($"{DateTime.Now} : {item.PartName} id: {item.Id} added");
             }
         }
-        public void ItemRemoved(object sender, PianoParts item)
+        public void ItemRemoved(object sender, IEntity item)
         {
             Console.WriteLine();
             Console.WriteLine($"{item.PartName} id: {item.Id} removed");
@@ -43,7 +58,7 @@ namespace GrandPianosParts.Services
                 writer.WriteLine($"{DateTime.Now} : {item.PartName} id: {item.Id} removed");
             }
         }
-        public void ItemSaved(object sender, PianoParts item)
+        public void ItemSaved(object sender, IEntity item)
         {
             Console.WriteLine();
             Console.WriteLine($"{item.PartName} id: {item.Id} saved");

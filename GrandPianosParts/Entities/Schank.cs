@@ -2,7 +2,7 @@
 
 namespace GrandPianosParts.Entities
 {
-    public class Schank : PianoParts
+    public class Schank : EntityBase
     {
         public override string ToString() => $"id : {Id}, partName : {PartName}, PartNumber : {PartNumber}, (Schanks)";
 

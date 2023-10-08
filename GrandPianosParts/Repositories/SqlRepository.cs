@@ -51,7 +51,9 @@ namespace GrandPianosParts.Repositories
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                List<PianoParts> items = dbContext.PianoParts.ToList();
+                List<Hammer> hammers = dbContext.Hammers.ToList();
+                List<Schank> schanks = dbContext.Schanks.ToList();
+                List<DamperFilz> dampers = dbContext.DamperFilzs.ToList();
             }
         }
     }

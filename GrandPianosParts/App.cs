@@ -1,11 +1,4 @@
-﻿using GrandPianosParts.Entities;
-using GrandPianosParts.Repositories;
-using GrandPianosParts.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GrandPianosParts.Services;
 
 namespace GrandPianosParts
 {

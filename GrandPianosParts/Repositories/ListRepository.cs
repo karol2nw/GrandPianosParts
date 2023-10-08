@@ -13,8 +13,13 @@ namespace GrandPianosParts.Repositories
         public event EventHandler<T> ItemSaved;
 
 
-        private const string filename = "JsonDataBase.json";
-        
+        private const string fileName = "_DataBase.json";
+        private string fullFileName;
+
+        public ListRepository()
+        {
+            fullFileName = $"{typeof(T)}{fileName}";
+        }
 
         private readonly List<T> _items = new();
 
@@ -40,12 +45,13 @@ namespace GrandPianosParts.Repositories
         {
             _items.Remove(item);
             ItemRemoved.Invoke(this, item);
-        }
+        }    
 
         public void Save()
         {
-           
-            using (var writer = File.AppendText(filename))
+            File.WriteAllText(fullFileName, string.Empty);
+
+            using (var writer = File.AppendText(fullFileName))
             {
                 foreach (var item in _items)
                 {
@@ -58,10 +64,10 @@ namespace GrandPianosParts.Repositories
         }
 
         public void Open()
-        {           
-            if (File.Exists(filename))
+        {
+            if (File.Exists(fullFileName))
             {
-                using (var reader = File.OpenText(filename))
+                using (var reader = File.OpenText(fullFileName))
                 {
                     var line = reader.ReadLine();
                     while (line != null)
@@ -72,7 +78,6 @@ namespace GrandPianosParts.Repositories
                         line = reader.ReadLine();
                     }
                 }
-             
             }
             else
             {
