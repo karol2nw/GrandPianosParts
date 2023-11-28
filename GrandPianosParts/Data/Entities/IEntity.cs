@@ -1,6 +1,4 @@
-﻿
-
-namespace GrandPianosParts.Entities
+﻿namespace GrandPianosParts.Data.Entities
 {
     public interface IEntity
     {

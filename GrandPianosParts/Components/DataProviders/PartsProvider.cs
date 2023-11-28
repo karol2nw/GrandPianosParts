@@ -1,8 +1,8 @@
-﻿using GrandPianosParts.Entities;
-using GrandPianosParts.Repositories;
+﻿using GrandPianosParts.Data.Entities;
+using GrandPianosParts.Data.Repositories;
 using System.Reflection.Metadata;
 
-namespace GrandPianosParts.DataProviders
+namespace GrandPianosParts.Components.DataProviders
 {
     public class PartsProvider : IPartsProvider
     {
@@ -110,7 +110,7 @@ namespace GrandPianosParts.DataProviders
         {
             var schanks = _schankRepository.GetAll();
             return schanks.Where(x => x.PartNumber == number).ToList();
-        } 
+        }
         public List<DamperFilz> WhereDamperNumberIs(string number)
         {
             var dampers = _damperRepository.GetAll();

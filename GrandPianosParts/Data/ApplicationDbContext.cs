@@ -1,5 +1,5 @@
 ﻿
-using GrandPianosParts.Entities;
+using GrandPianosParts.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 

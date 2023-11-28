@@ -1,10 +1,9 @@
-﻿
-using GrandPianosParts.Entities;
+﻿using GrandPianosParts.Data.Entities;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 
-namespace GrandPianosParts.Repositories
+namespace GrandPianosParts.Data.Repositories
 {
     internal class ListRepository<T> : IRepository<T> where T : class, IEntity, new()
     {
@@ -45,7 +44,7 @@ namespace GrandPianosParts.Repositories
         {
             _items.Remove(item);
             ItemRemoved.Invoke(this, item);
-        }    
+        }
 
         public void Save()
         {

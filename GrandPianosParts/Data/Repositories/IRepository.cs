@@ -1,8 +1,6 @@
-﻿
+﻿using GrandPianosParts.Data.Entities;
 
-using GrandPianosParts.Entities;
-
-namespace GrandPianosParts.Repositories
+namespace GrandPianosParts.Data.Repositories
 {
     public interface IRepository<T> : IReadRepository<T>, IWriteRepository<T> where T : class, IEntity
     {

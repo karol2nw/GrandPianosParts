@@ -1,6 +1,6 @@
-﻿using GrandPianosParts.DataProviders;
-using GrandPianosParts.Entities;
-using GrandPianosParts.Repositories;
+﻿using GrandPianosParts.Components.DataProviders;
+using GrandPianosParts.Data.Entities;
+using GrandPianosParts.Data.Repositories;
 
 
 

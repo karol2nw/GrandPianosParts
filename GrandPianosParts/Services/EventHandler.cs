@@ -1,5 +1,5 @@
-﻿using GrandPianosParts.Entities;
-using GrandPianosParts.Repositories;
+﻿using GrandPianosParts.Data.Entities;
+using GrandPianosParts.Data.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

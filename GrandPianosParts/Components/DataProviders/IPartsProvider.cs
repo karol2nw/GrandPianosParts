@@ -1,21 +1,21 @@
-﻿using GrandPianosParts.Entities;
+﻿using GrandPianosParts.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GrandPianosParts.DataProviders
+namespace GrandPianosParts.Components.DataProviders
 {
     public interface IPartsProvider
     {
 
-       
+
         List<Hammer> OrderHammersByName();
         List<Schank> OrderSchanksByName();
         List<DamperFilz> OrderDampersByName();
 
-       
+
         List<Hammer> ShowAllHammers();
         List<Schank> ShowAllSchanks();
         List<DamperFilz> ShowAllDampers();

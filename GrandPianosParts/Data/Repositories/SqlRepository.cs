@@ -1,10 +1,7 @@
-﻿
-
-using GrandPianosParts.Data;
-using GrandPianosParts.Entities;
+﻿using GrandPianosParts.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace GrandPianosParts.Repositories
+namespace GrandPianosParts.Data.Repositories
 {
     internal class SqlRepository<T> : IRepository<T> where T : class, IEntity, new()
     {
